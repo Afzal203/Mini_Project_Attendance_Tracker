@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Tracker</title>
+</head>
+
+<body>
+    <style>
+        .present{
+            color: green;
+            font-weight: bold;
+        }
+        .absent{
+            color: red;
+            font-weight: bold;
+        }
+        .od{
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+
+    <h1>Attendance Tracker</h1>
+
+    <p id="today"></p>
+
+    <input id="name" type="text" placeholder="Enter your name">
+
+    <select id="status">
+        <option value="">Select attendance</option>
+        <option value="Present">Present</option>
+        <option value="Absent">Absent</option>
+        <option value="OD">OD</option>
+    </select>
+
+    <button id="btn">Submit</button>
+
+    <h2>Attendance Records</h2>
+    <div id="summary">
+        <p>Present: <span id="presentCount">0</span></p>
+        <p>Absent: <span id="absentCount">0</span></p>
+        <p>OD: <span id="odCount">0</span></p>
+    </div>
+    <p>Attendance: <span id="percentage">0%</span></p>
+    <table id="attendanceTable" border="1">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </table>
+    <script>
+    let button = document.getElementById("btn");
+    let presentCount=0;
+    let absentCount=0;
+    let odCount=0;
+
+    button.addEventListener("click", function() {
+
+        let name = document.getElementById("name").value;
+        if(name ===""){
+            alert("Please enter your name!");
+        }
+        let status = document.getElementById("status").value;
+        if(status===""){
+            alert("Please select attendance!")
+        }
+        let table = document.getElementById("attendanceTable");
+
+        let row = table.insertRow();
+
+        let nameCell = row.insertCell(0);
+        let dateCell = row.insertCell(1);
+        let statusCell = row.insertCell(2);
+
+        nameCell.textContent = name;
+        dateCell.textContent = new Date().toLocaleDateString();
+        statusCell.textContent = status;
+        if(status==="Present"){
+            statusCell.className = "present";
+            presentCount++;
+            document.getElementById("presentCount").textContent=presentCount;
+        }
+        else if(status==="Absent"){
+            statusCell.className = "absent";
+            absentCount++;
+            document.getElementById("absentCount").textContent=absentCount
+        }
+        else if(status === "OD"){
+            statusCell.className = "od";
+            odCount++;
+            document.getElementById("odCount").textContent=odCount;
+        }
+        document.getElementById("name").value="";
+        document.getElementById("status").value="";
+        let total = presentCount+absentCount+odCount;
+        let percentage = 0;
+        if(total>0){
+            percentage=(presentCount/total)*100;
+        }
+        document.getElementById("percentage").textContent=percentage.toFixed(2)+"%";
+    });
+</script>
+
+</body>
+</html>
